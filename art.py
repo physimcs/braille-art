@@ -27,7 +27,6 @@ import csv
 braille_values = {}
 dot_braille_values = {}
 
-# Reading our glyph_storage file and storing it as a dictionary
 with open('glyph_storage.csv', newline='', encoding='utf-8') as csvfile:
    reader = csv.reader(csvfile)
 
@@ -35,6 +34,8 @@ with open('glyph_storage.csv', newline='', encoding='utf-8') as csvfile:
    for column in reader:
       # Unpack values from the two columns
       numbers, glyph = column
+      # Debug output to check the loaded values
+      print(f"Loaded: {glyph} -> {numbers}")
       # Store glyph as key and dots as value
       braille_values[glyph] = numbers
       # Opposite for dot_braille_values
@@ -45,6 +46,7 @@ def unglyph(glyph_string):
     number_list = []
 
     for glyph in glyph_string:
+         glyph = glyph.strip()
          # In case of it being a new line
          if glyph == '\n':
             number_list.append('\n')
@@ -57,6 +59,9 @@ def unglyph(glyph_string):
          
     return number_list
 
+unglyphed = unglyph(input_art)
+print(unglyphed)
+
 def print_braille(number_list):
    printable = ""
 
@@ -68,11 +73,3 @@ def print_braille(number_list):
          printable += str(glyph)
 
    return printable
-    
-unglyphed_art = unglyph(input_art)
-glyphed_art = print_braille(unglyphed_art)
-print(glyphed_art)
-print("braille_values:", braille_values)
-print("dot_braille_values:", dot_braille_values)
-print("unglyphed_art:", unglyphed_art)
-print("glyphed_art:", glyphed_art)
